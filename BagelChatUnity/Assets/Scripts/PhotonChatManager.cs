@@ -2,51 +2,97 @@ using System;
 using ExitGames.Client.Photon;
 using Photon.Chat;
 using Photon.Pun;
+using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace BagelChat
 {
     public class PhotonChatManager : MonoBehaviour, IChatClientListener
     {
-        [SerializeField] private string _userId;
+        [Header("Login")]
+        [SerializeField] private Button _joinButton;
+        [SerializeField] private InputField _usernameInput;
+
+        [Header("Chatroom")]
+        [SerializeField] private GameObject _chatPanel;
         
+        [Space(10)]
+        [SerializeField] private TMP_InputField _messageField;
+        [SerializeField] private TMP_InputField _userField;
+
+        [Space(10)]
+        [SerializeField] private string _globalChat = "global";
+        
+        [Space(10)]
+        [SerializeField] private TextMeshProUGUI _chatDisplay;
+
+        private bool _isConnected = false;
+        
+        [SerializeField] private string _userName;
         private ChatClient _chatClient;
 
         private void Start()
         {
-            _chatClient = new ChatClient(this);
-            _chatClient.Connect(PhotonNetwork.PhotonServerSettings.AppSettings.AppIdChat, PhotonNetwork.AppVersion,
-                new AuthenticationValues(_userId));
+            ChatConnectOnClick();
         }
 
         private void Update()
         {
-            _chatClient.Service();
+            if (_isConnected)
+            {
+                _chatClient.Service();
+            }
+        }
+        
+        public void ChatConnectOnClick()
+        {
+            _isConnected = true;
+            _chatClient = new ChatClient(this);
+            _chatClient.Connect(PhotonNetwork.PhotonServerSettings.AppSettings.AppIdChat, PhotonNetwork.AppVersion, new AuthenticationValues(_userName));
+            
+            Debug.Log("Connecting");
+        }
+
+        public void OnUsernameChanged(string username)
+        {
+            _userName = username;
+        }
+        
+        public void SubmitMessage()
+        {
+            if (string.IsNullOrEmpty(_userField.text))
+            {
+                _chatClient.PublishMessage(_globalChat, _messageField.text);
+            }
         }
 
         public void DebugReturn(DebugLevel level, string message)
         {
-            throw new System.NotImplementedException();
+            Debug.Log($"{level}, {message}");
         }
 
         public void OnDisconnected()
         {
-            throw new System.NotImplementedException();
+            _chatClient.Unsubscribe(new[] {_globalChat});
         }
 
         public void OnConnected()
         {
-            throw new System.NotImplementedException();
+            _chatClient.Subscribe(_globalChat);
         }
 
         public void OnChatStateChange(ChatState state)
         {
-            throw new System.NotImplementedException();
+            Debug.Log(state);
         }
 
         public void OnGetMessages(string channelName, string[] senders, object[] messages)
         {
-            throw new System.NotImplementedException();
+            for (int i = 0; i < senders.Length; i++)
+            {
+                _chatDisplay.text += $"\n [{channelName}] {senders[i]}: {messages[i]}";
+            }
         }
 
         public void OnPrivateMessage(string sender, object message, string channelName)
@@ -56,12 +102,12 @@ namespace BagelChat
 
         public void OnSubscribed(string[] channels, bool[] results)
         {
-            throw new System.NotImplementedException();
+            _chatDisplay.text += "\n connected to new chanel ^_^";
         }
 
         public void OnUnsubscribed(string[] channels)
         {
-            throw new System.NotImplementedException();
+            _chatDisplay.text += "\n disconnected from chanel :C";
         }
 
         public void OnStatusUpdate(string user, int status, bool gotMessage, object message)
@@ -71,12 +117,12 @@ namespace BagelChat
 
         public void OnUserSubscribed(string channel, string user)
         {
-            throw new System.NotImplementedException();
+            _chatDisplay.text += $"\n {channel}: meet new user {user} ^_^";
         }
 
         public void OnUserUnsubscribed(string channel, string user)
         {
-            throw new System.NotImplementedException();
+            _chatDisplay.text += $"\n {channel}: say buy to user {user} :C";
         }
     }
 }
