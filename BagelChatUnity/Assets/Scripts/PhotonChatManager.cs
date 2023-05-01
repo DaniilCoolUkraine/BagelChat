@@ -12,31 +12,25 @@ namespace BagelChat
     {
         [Header("Login")]
         [SerializeField] private Button _joinButton;
-        [SerializeField] private InputField _usernameInput;
 
         [Header("Chatroom")]
         [SerializeField] private GameObject _chatPanel;
-        
-        [Space(10)]
+
+        [Space(10)] 
         [SerializeField] private TMP_InputField _messageField;
-        [SerializeField] private TMP_InputField _userField;
+        [SerializeField] private TMP_InputField _privateUserField;
 
         [Space(10)]
         [SerializeField] private string _globalChat = "global";
-        
+
         [Space(10)]
         [SerializeField] private TextMeshProUGUI _chatDisplay;
 
         private bool _isConnected = false;
         
-        [SerializeField] private string _userName;
+        private string _userName;
         private ChatClient _chatClient;
-
-        private void Start()
-        {
-            ChatConnectOnClick();
-        }
-
+        
         private void Update()
         {
             if (_isConnected)
@@ -52,6 +46,9 @@ namespace BagelChat
             _chatClient.Connect(PhotonNetwork.PhotonServerSettings.AppSettings.AppIdChat, PhotonNetwork.AppVersion, new AuthenticationValues(_userName));
             
             Debug.Log("Connecting");
+            
+            _joinButton.gameObject.SetActive(false);
+            _chatPanel.SetActive(true);
         }
 
         public void OnUsernameChanged(string username)
@@ -61,9 +58,23 @@ namespace BagelChat
         
         public void SubmitMessage()
         {
-            if (string.IsNullOrEmpty(_userField.text))
+            if (string.IsNullOrEmpty(_privateUserField.text))
             {
+                if (string.IsNullOrEmpty(_messageField.text))
+                {
+                    return;
+                }
                 _chatClient.PublishMessage(_globalChat, _messageField.text);
+                _messageField.text = String.Empty;
+            }
+            else
+            {
+                if (string.IsNullOrEmpty(_messageField.text))
+                {
+                    return;
+                }
+                _chatClient.SendPrivateMessage(_privateUserField.text, _messageField.text);
+                _messageField.text = String.Empty;
             }
         }
 
@@ -97,12 +108,15 @@ namespace BagelChat
 
         public void OnPrivateMessage(string sender, object message, string channelName)
         {
-            throw new System.NotImplementedException();
+            _chatDisplay.text += $"\n [private] {sender}: {message}";
         }
 
         public void OnSubscribed(string[] channels, bool[] results)
         {
-            _chatDisplay.text += "\n connected to new chanel ^_^";
+            foreach (string channel in channels)
+            {
+                _chatDisplay.text += $"\n connected to new chanel {channel} ^_^";
+            }
         }
 
         public void OnUnsubscribed(string[] channels)

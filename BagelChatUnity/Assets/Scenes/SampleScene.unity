@@ -541,7 +541,7 @@ GameObject:
   - component: {fileID: 574398132}
   - component: {fileID: 574398131}
   m_Layer: 5
-  m_Name: PrivateUserChat
+  m_Name: PrivateUsernameInput
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -775,7 +775,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &647126723
 RectTransform:
   m_ObjectHideFlags: 0
@@ -841,7 +841,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 647126725}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1532636917}
+        m_TargetAssemblyTypeName: BagelChat.PhotonChatManager, Assembly-CSharp
+        m_MethodName: ChatConnectOnClick
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &647126725
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2231,7 +2243,19 @@ MonoBehaviour:
       m_Calls: []
   m_OnValueChanged:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1532636917}
+        m_TargetAssemblyTypeName: BagelChat.PhotonChatManager, Assembly-CSharp
+        m_MethodName: OnUsernameChanged
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   m_OnTouchScreenKeyboardStatusChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -2758,14 +2782,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cc97285a9cd825747bd3d6dc4c735423, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _joinButton: {fileID: 0}
-  _usernameInput: {fileID: 0}
-  _chatPanel: {fileID: 0}
+  _joinButton: {fileID: 647126724}
+  _chatPanel: {fileID: 2064100989}
   _messageField: {fileID: 744338288}
-  _userField: {fileID: 574398131}
+  _privateUserField: {fileID: 574398131}
   _globalChat: global
   _chatDisplay: {fileID: 1052666456}
-  _userName: fff
 --- !u!1 &1614643760
 GameObject:
   m_ObjectHideFlags: 0
@@ -3022,7 +3044,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &2064100990
 RectTransform:
   m_ObjectHideFlags: 0
