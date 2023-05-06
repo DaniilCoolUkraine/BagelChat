@@ -1,5 +1,4 @@
-﻿using System;
-using BagelChat.ScriptableObjects;
+﻿using BagelChat.ScriptableObjects;
 using UnityEngine;
 
 namespace BagelChat.UI

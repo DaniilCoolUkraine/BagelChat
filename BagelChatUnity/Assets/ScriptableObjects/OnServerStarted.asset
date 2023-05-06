@@ -10,5 +10,5 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 3936e23ec6bd4cda93be59c75120a713, type: 3}
-  m_Name: OnConnectedToServer
+  m_Name: OnServerStarted
   m_EditorClassIdentifier: 

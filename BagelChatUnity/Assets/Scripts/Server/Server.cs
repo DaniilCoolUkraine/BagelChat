@@ -11,7 +11,7 @@ namespace BagelChat.Server
 {
     public class Server : MonoBehaviour
     {
-        [SerializeField] private EventSO _onConnectedToServer;
+        [SerializeField] private EventSO _onServerStarted;
         
         [SerializeField] private int _port = 6321;
         public int Port => _port;
@@ -41,7 +41,7 @@ namespace BagelChat.Server
                 
                 _isStarted = true;
                 Debug.Log("server has been started " + _port);
-                _onConnectedToServer.Invoke();
+                //_serverStarted.Invoke();
                 
                 _stringBuilder = new StringBuilder();
             }
