@@ -41,7 +41,7 @@ namespace BagelChat.Server
                 
                 _isStarted = true;
                 Debug.Log("server has been started " + _port);
-                //_serverStarted.Invoke();
+                _onServerStarted.Invoke();
                 
                 _stringBuilder = new StringBuilder();
             }
