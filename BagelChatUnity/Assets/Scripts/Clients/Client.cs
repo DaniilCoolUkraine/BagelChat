@@ -11,7 +11,7 @@ namespace BagelChat.Clients
     {
         [SerializeField] private EventSO _onConnectedToServer;
         
-        private bool _socketIsReady = false;
+        private bool _isConnected = false;
 
         private TcpClient _socket;
 
@@ -32,7 +32,7 @@ namespace BagelChat.Clients
 
         private void Update()
         {
-            if (!_socketIsReady)
+            if (!_isConnected)
                 return;
 
             if (_stream.DataAvailable)
@@ -47,7 +47,7 @@ namespace BagelChat.Clients
 
         public void ConnectToServer()
         {
-            if (_socketIsReady)
+            if (_isConnected)
                 return;
 
             try
@@ -59,7 +59,7 @@ namespace BagelChat.Clients
                 _reader = new StreamReader(_stream);
                 _writer = new StreamWriter(_stream);
 
-                _socketIsReady = true;
+                _isConnected = true;
                 
                 _onConnectedToServer.Invoke();
             }

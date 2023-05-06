@@ -14,7 +14,6 @@ namespace BagelChat.Server
         [SerializeField] private EventSO _onServerStarted;
         
         [SerializeField] private int _port = 6321;
-        public int Port => _port;
 
         private List<ServerClient> _clients;
         private List<ServerClient> _disconnectClients;
@@ -88,6 +87,24 @@ namespace BagelChat.Server
             Debug.Log($"{client.Name}: {data}");
         }
 
+        private void BroadCast(string data, List<ServerClient> clients)
+        {
+            foreach (ServerClient client in clients)
+            {
+                try
+                {
+                    StreamWriter writer = new StreamWriter(client.Client.GetStream());
+                    writer.WriteLine(data);
+                    writer.Flush();
+                }
+                catch (Exception e)
+                {
+                    Debug.Log($"Write error: {e.Message}; to client {client.Name}");
+                    throw;  
+                }
+            }
+        }
+
         private void StartListening()
         {
             _server.BeginAcceptTcpClient(AcceptTcpClient, _server);
@@ -98,6 +115,9 @@ namespace BagelChat.Server
             TcpListener listener = (TcpListener) ar.AsyncState;
             
             _clients.Add(new ServerClient(listener.EndAcceptTcpClient(ar)));
+
+            BroadCast($"{_clients[^1].Name} connected", _clients);
+
             StartListening();
         }
 
