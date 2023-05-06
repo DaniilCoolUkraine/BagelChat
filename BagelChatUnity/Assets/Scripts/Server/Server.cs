@@ -4,12 +4,15 @@ using System.IO;
 using System.Net;
 using System.Net.Sockets;
 using System.Text;
+using BagelChat.ScriptableObjects;
 using UnityEngine;
 
 namespace BagelChat.Server
 {
     public class Server : MonoBehaviour
     {
+        [SerializeField] private EventSO _onConnectedToServer;
+        
         [SerializeField] private int _port = 6321;
         public int Port => _port;
 
@@ -38,6 +41,7 @@ namespace BagelChat.Server
                 
                 _isStarted = true;
                 Debug.Log("server has been started " + _port);
+                _onConnectedToServer.Invoke();
                 
                 _stringBuilder = new StringBuilder();
             }
