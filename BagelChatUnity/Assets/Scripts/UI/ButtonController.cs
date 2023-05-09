@@ -6,17 +6,17 @@ namespace BagelChat.UI
 {
     public class ButtonController : MonoBehaviour
     {
-        [SerializeField] private Client _client;
+        [SerializeField] private Controllable _controllable;
         [SerializeField] private Button _button;
 
         private void OnEnable()
         {
-            _button.onClick.AddListener(_client.ConnectToServer);
+            _button.onClick.AddListener(_controllable.DoAction);
         }
 
         private void OnDisable()
         {
-            _button.onClick.RemoveListener(_client.ConnectToServer);
+            _button.onClick.RemoveListener(_controllable.DoAction);
         }
     }
 }

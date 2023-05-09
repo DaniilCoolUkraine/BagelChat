@@ -7,7 +7,7 @@ using UnityEngine;
 
 namespace BagelChat.Clients
 {
-    public class Client : MonoBehaviour
+    public class Client : Controllable
     {
         [SerializeField] private StringEventSO _onMessageReceived;
         [SerializeField] private EventSO _onConnectedToServer;
@@ -46,7 +46,16 @@ namespace BagelChat.Clients
             }
         }
 
-        public void ConnectToServer()
+        public override void DoAction()
+        {
+            ConnectToServer();
+        }
+        
+        public void SetHost(string host) => _host = host;
+
+        public void SetPort(string port) => int.TryParse(port, out _port);
+
+        private void ConnectToServer()
         {
             if (_isConnected)
                 return;
@@ -69,11 +78,7 @@ namespace BagelChat.Clients
                 Debug.Log("Socket error " + e.Message);
             }
         }
-
-        public void SetHost(string host) => _host = host;
-
-        public void SetPort(string port) => int.TryParse(port, out _port);
-
+        
         private void OnIncomingData(string data)
         {
             _onMessageReceived.ChangeValue(data);

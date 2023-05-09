@@ -2,9 +2,9 @@
 using TMPro;
 using UnityEngine;
 
-namespace BagelChat.Clients
+namespace BagelChat.UI
 {
-    public class ClientMessageShower : MonoBehaviour
+    public class MessageShower : MonoBehaviour
     {
         [SerializeField] private StringEventSO _onMessageReceived;
 
