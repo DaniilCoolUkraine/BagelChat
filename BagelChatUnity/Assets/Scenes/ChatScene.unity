@@ -409,6 +409,7 @@ GameObject:
   m_Component:
   - component: {fileID: 133603222}
   - component: {fileID: 133603223}
+  - component: {fileID: 133603224}
   m_Layer: 0
   m_Name: Client
   m_TagString: Untagged
@@ -423,13 +424,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 133603221}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 1412079299}
-  m_RootOrder: 0
+  m_Father: {fileID: 879493459}
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &133603223
 MonoBehaviour:
@@ -443,7 +444,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0620f4f1a89f440e8216a170050a425f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _onMessageReceived: {fileID: 11400000, guid: 7723a8660effefe4bbdbdbe8fb05ae0b, type: 2}
   _onConnectedToServer: {fileID: 11400000, guid: f98d837f7c340284dacd9eaa28443c0a, type: 2}
+--- !u!114 &133603224
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 133603221}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b69ddb86f35444cb8c5db3f1afcc605e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _onMessageReceived: {fileID: 11400000, guid: 7723a8660effefe4bbdbdbe8fb05ae0b, type: 2}
+  _chatWindow: {fileID: 1190905046}
+  _messagePrefab: {fileID: 1778999341491635486, guid: bbc69ece28da7d7419c282a4fc2b4013, type: 3}
 --- !u!1 &256864982
 GameObject:
   m_ObjectHideFlags: 0
@@ -717,7 +734,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 879493459}
-  m_RootOrder: 1
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &307370016
 MonoBehaviour:
@@ -978,7 +995,7 @@ MonoBehaviour:
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
   m_fontSizeMax: 72
-  m_fontStyle: 3
+  m_fontStyle: 0
   m_HorizontalAlignment: 1
   m_VerticalAlignment: 256
   m_textAlignment: 65535
@@ -1219,6 +1236,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 256864983}
+  - {fileID: 133603222}
   - {fileID: 307370015}
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -1551,7 +1569,7 @@ MonoBehaviour:
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
   m_fontSizeMax: 72
-  m_fontStyle: 3
+  m_fontStyle: 0
   m_HorizontalAlignment: 1
   m_VerticalAlignment: 256
   m_textAlignment: 65535
@@ -1686,7 +1704,7 @@ MonoBehaviour:
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
   m_fontSizeMax: 72
-  m_fontStyle: 3
+  m_fontStyle: 0
   m_HorizontalAlignment: 1
   m_VerticalAlignment: 256
   m_textAlignment: 65535
@@ -3062,8 +3080,7 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 133603222}
+  m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -3367,7 +3384,7 @@ MonoBehaviour:
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
   m_fontSizeMax: 72
-  m_fontStyle: 3
+  m_fontStyle: 0
   m_HorizontalAlignment: 1
   m_VerticalAlignment: 256
   m_textAlignment: 65535

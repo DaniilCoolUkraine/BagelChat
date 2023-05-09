@@ -9,6 +9,7 @@ namespace BagelChat.Clients
 {
     public class Client : MonoBehaviour
     {
+        [SerializeField] private StringEventSO _onMessageReceived;
         [SerializeField] private EventSO _onConnectedToServer;
         
         private bool _isConnected = false;
@@ -75,6 +76,7 @@ namespace BagelChat.Clients
 
         private void OnIncomingData(string data)
         {
+            _onMessageReceived.ChangeValue(data);
             Debug.Log(data);
         }
     }
