@@ -2,7 +2,6 @@
 using BagelChat.ScriptableObjects;
 using TMPro;
 using UnityEngine;
-using UnityEngine.UI;
 
 namespace BagelChat.UI
 {
@@ -28,6 +27,8 @@ namespace BagelChat.UI
             
             _hostInput.onEndEdit.AddListener(_client.SetHost);
             _portInput.onEndEdit.AddListener(_client.SetPort);
+            _nameInput.onEndEdit.AddListener(_client.SetName);            
+            
             _messageInput.onEndEdit.AddListener(_client.SendData);
         }
         
@@ -40,6 +41,8 @@ namespace BagelChat.UI
             
             _hostInput.onEndEdit.RemoveListener(_client.SetHost);
             _portInput.onEndEdit.RemoveListener(_client.SetPort);
+            _nameInput.onEndEdit.RemoveListener(_client.SetName);
+
             _messageInput.onEndEdit.RemoveListener(_client.SendData);
         }
     }

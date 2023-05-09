@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using System.Net.Sockets;
+using BagelChat.General;
 using BagelChat.ScriptableObjects;
 using UnityEngine;
 
@@ -11,7 +12,7 @@ namespace BagelChat.Clients
         [SerializeField] private StringEventSO _onMessageReceived;
         [SerializeField] private EventSO _onConnectedToServer;
 
-        private string _name;
+        private string _clientName;
         
         private bool _isConnected = false;
 
@@ -48,6 +49,9 @@ namespace BagelChat.Clients
         public void SetHost(string host) => _host = host;
 
         public void SetPort(string port) => int.TryParse(port, out _port);
+
+        public void SetName(string clientName) => _clientName = clientName;
+        
         
         public void SendData(string data)
         {
@@ -83,6 +87,12 @@ namespace BagelChat.Clients
         
         private void OnIncomingData(string data)
         {
+            if (data == "&NAME")
+            {
+                SendData($"{SpecialCommands.NameResponse}{_clientName}");
+                return;
+            }
+            
             _onMessageReceived.ChangeValue(data);
             Debug.Log(data);
         }

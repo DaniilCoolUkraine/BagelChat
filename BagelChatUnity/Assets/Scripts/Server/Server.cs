@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Net;
 using System.Net.Sockets;
+using BagelChat.General;
 using BagelChat.ScriptableObjects;
 using UnityEngine;
 
@@ -76,6 +77,13 @@ namespace BagelChat.Server
 
         private void OnIncomingData(ServerClient client, string data)
         {
+            if (data.Contains(SpecialCommands.NameResponse))
+            {
+                client.Name = data.Split(':')[1];
+                BroadCast($"{client.Name} has connected", _clients);
+                return;
+            }
+            
             BroadCast($"{client.Name}: {data}", _clients);
         }
 
@@ -108,7 +116,7 @@ namespace BagelChat.Server
             
             _clients.Add(new ServerClient(listener.EndAcceptTcpClient(ar)));
 
-            BroadCast($"{_clients[^1].Name} connected", _clients);
+            BroadCast(SpecialCommands.NameRequest, new List<ServerClient> {_clients[^1]});
 
             StartListening();
         }
