@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.IO;
 using System.Net;
 using System.Net.Sockets;
-using System.Text;
 using BagelChat.ScriptableObjects;
 using UnityEngine;
 
@@ -21,9 +20,7 @@ namespace BagelChat.Server
         private TcpListener _server;
         private bool _isStarted;
 
-        private StringBuilder _stringBuilder;
         private string _data;
-        
         private NetworkStream _stream;
 
         private void Start()
@@ -39,10 +36,7 @@ namespace BagelChat.Server
                 StartListening();
                 
                 _isStarted = true;
-                Debug.Log("server has been started " + _port);
                 _onServerStarted.Invoke();
-                
-                _stringBuilder = new StringBuilder();
             }
             catch (Exception e)
             {
@@ -63,16 +57,14 @@ namespace BagelChat.Server
                     _disconnectClients.Add(client);
                     continue;
                 }
-
-                _stringBuilder.Clear();
+                
                 _stream = client.Client.GetStream();
                 
                 if (_stream.DataAvailable)
                 {
-                    StreamReader reader = new StreamReader(_stream, true); 
-                    
-                    _stringBuilder.Append(reader.ReadLine());
-                    _data = _stringBuilder.ToString();
+                    StreamReader reader = new StreamReader(_stream, true);
+
+                    _data = reader.ReadLine();
                     
                     if (_data != null)
                     {
@@ -84,7 +76,7 @@ namespace BagelChat.Server
 
         private void OnIncomingData(ServerClient client, string data)
         {
-            Debug.Log($"{client.Name}: {data}");
+            BroadCast($"{client.Name}: {data}", _clients);
         }
 
         private void BroadCast(string data, List<ServerClient> clients)

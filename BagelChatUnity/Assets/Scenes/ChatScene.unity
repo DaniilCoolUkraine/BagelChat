@@ -755,6 +755,7 @@ MonoBehaviour:
   - {fileID: 656521651}
   _hostInput: {fileID: 288815499}
   _portInput: {fileID: 1192927010}
+  _messageInput: {fileID: 1225526535}
 --- !u!1 &355996391
 GameObject:
   m_ObjectHideFlags: 0

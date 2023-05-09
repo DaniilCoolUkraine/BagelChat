@@ -26,7 +26,9 @@ namespace BagelChat.UI
         private void ShowMessage(string message)
         {
             _lastMessage = Instantiate(_messagePrefab, _chatWindow.transform);
-            _lastMessage.GetComponentInChildren<TextMeshProUGUI>().text = message;
+            TextMeshProUGUI text = _lastMessage.GetComponentInChildren<TextMeshProUGUI>();
+            text.ClearMesh();
+            text.text = message;
         }
     }
 }

@@ -2,6 +2,7 @@
 using BagelChat.ScriptableObjects;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace BagelChat.UI
 {
@@ -14,7 +15,10 @@ namespace BagelChat.UI
 
         [SerializeField] private TMP_InputField _hostInput;
         [SerializeField] private TMP_InputField _portInput;
+        [SerializeField] private TMP_InputField _nameInput;
         
+        [SerializeField] private TMP_InputField _messageInput;
+
         private void OnEnable()
         {
             foreach (var controller in _controllers)
@@ -24,6 +28,7 @@ namespace BagelChat.UI
             
             _hostInput.onEndEdit.AddListener(_client.SetHost);
             _portInput.onEndEdit.AddListener(_client.SetPort);
+            _messageInput.onEndEdit.AddListener(_client.SendData);
         }
         
         private void OnDisable()
@@ -35,6 +40,7 @@ namespace BagelChat.UI
             
             _hostInput.onEndEdit.RemoveListener(_client.SetHost);
             _portInput.onEndEdit.RemoveListener(_client.SetPort);
+            _messageInput.onEndEdit.RemoveListener(_client.SendData);
         }
     }
 }
