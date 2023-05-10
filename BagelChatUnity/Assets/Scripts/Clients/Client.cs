@@ -96,7 +96,7 @@ namespace BagelChat.Clients
 
         private void OnIncomingData(string data)
         {
-            if (data == "&NAME")
+            if (data == SpecialCommands.NameRequest)
             {
                 SendData($"{SpecialCommands.NameResponse}{_clientName}");
                 return;

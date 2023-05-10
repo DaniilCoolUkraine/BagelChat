@@ -88,21 +88,33 @@ namespace BagelChat.Server
             if (data.Contains(SpecialCommands.NameResponse))
             {
                 client.Name = data.Split(':')[1];
-                BroadCast($"{client.Name} has connected", _clients);
+                SendData($"{client.Name} has connected", _clients);
                 return;
             }
-
-            BroadCast($"{client.Name}: {data}", _clients);
+            
+            if (data.Contains(SpecialCommands.PrivateTag))
+            {
+                // extract private user and find him in users dictionary
+            }
+            else
+            {
+                SendData($"{client.Name}: {data}", _clients);
+            }
         }
 
-        private void BroadCast(string data, List<ServerClient> clients)
+        private void SendData(string data, List<ServerClient> clients)
         {
+            bool isGlobal = clients.Count == _clients.Count;
+
             foreach (ServerClient client in clients)
             {
                 try
                 {
                     StreamWriter writer = new StreamWriter(client.Client.GetStream());
-                    writer.WriteLine(data);
+                    if (isGlobal)
+                    {
+                        writer.WriteLine(SpecialCommands.GlobalTag + data);
+                    }
                     writer.Flush();
                 }
                 catch (Exception e)
@@ -123,7 +135,7 @@ namespace BagelChat.Server
 
             _clients.Add(new ServerClient(listener.EndAcceptTcpClient(ar)));
 
-            BroadCast(SpecialCommands.NameRequest, new List<ServerClient> {_clients[^1]});
+            SendData(SpecialCommands.NameRequest, new List<ServerClient> {_clients[^1]});
 
             StartListening();
         }
