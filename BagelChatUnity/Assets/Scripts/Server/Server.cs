@@ -12,7 +12,7 @@ namespace BagelChat.Server
     public class Server : MonoBehaviour
     {
         [SerializeField] private EventSO _onServerStarted;
-        
+
         [SerializeField] private int _port = 6321;
 
         private List<ServerClient> _clients;
@@ -35,7 +35,7 @@ namespace BagelChat.Server
                 _server.Start();
 
                 StartListening();
-                
+
                 _isStarted = true;
                 _onServerStarted.Invoke();
             }
@@ -58,15 +58,15 @@ namespace BagelChat.Server
                     _disconnectClients.Add(client);
                     continue;
                 }
-                
+
                 _stream = client.Client.GetStream();
-                
+
                 if (_stream.DataAvailable)
                 {
                     StreamReader reader = new StreamReader(_stream, true);
 
                     _data = reader.ReadLine();
-                    
+
                     if (_data != null)
                     {
                         OnIncomingData(client, _data);
@@ -79,6 +79,8 @@ namespace BagelChat.Server
                 _clients.Remove(_disconnectClients[i]);
                 _disconnectClients.Remove(_disconnectClients[i]);
             }
+
+            _disconnectClients.Clear();
         }
 
         private void OnIncomingData(ServerClient client, string data)
@@ -89,7 +91,7 @@ namespace BagelChat.Server
                 BroadCast($"{client.Name} has connected", _clients);
                 return;
             }
-            
+
             BroadCast($"{client.Name}: {data}", _clients);
         }
 
@@ -118,7 +120,7 @@ namespace BagelChat.Server
         private void AcceptTcpClient(IAsyncResult ar)
         {
             TcpListener listener = (TcpListener) ar.AsyncState;
-            
+
             _clients.Add(new ServerClient(listener.EndAcceptTcpClient(ar)));
 
             BroadCast(SpecialCommands.NameRequest, new List<ServerClient> {_clients[^1]});
