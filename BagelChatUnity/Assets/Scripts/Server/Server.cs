@@ -73,6 +73,12 @@ namespace BagelChat.Server
                     }
                 }
             }
+
+            for (int i = 0; i < _disconnectClients.Count - 1; i++)
+            {
+                _clients.Remove(_disconnectClients[i]);
+                _disconnectClients.Remove(_disconnectClients[i]);
+            }
         }
 
         private void OnIncomingData(ServerClient client, string data)
@@ -100,7 +106,6 @@ namespace BagelChat.Server
                 catch (Exception e)
                 {
                     Debug.Log($"Write error: {e.Message}; to client {client.Name}");
-                    throw;  
                 }
             }
         }

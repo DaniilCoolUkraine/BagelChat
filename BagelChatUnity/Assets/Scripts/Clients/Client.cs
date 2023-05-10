@@ -41,6 +41,16 @@ namespace BagelChat.Clients
             }
         }
 
+        private void OnApplicationQuit()
+        {
+            CloseSocket();
+        }
+
+        private void OnDisable()
+        {
+            CloseSocket();
+        }
+
         public override void DoAction()
         {
             ConnectToServer();
@@ -51,7 +61,6 @@ namespace BagelChat.Clients
         public void SetPort(string port) => int.TryParse(port, out _port);
 
         public void SetName(string clientName) => _clientName = clientName;
-        
         
         public void SendData(string data)
         {
@@ -94,7 +103,18 @@ namespace BagelChat.Clients
             }
             
             _onMessageReceived.ChangeValue(data);
-            Debug.Log(data);
+        }
+
+        private void CloseSocket()
+        {
+            if (!_isConnected)
+                return;
+            
+            _writer.Close();
+            _reader.Close();
+            _socket.Close();
+
+            _isConnected = false;
         }
     }
 }
