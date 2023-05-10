@@ -15,7 +15,7 @@ namespace BagelChat.UI
         [SerializeField] private TMP_InputField _hostInput;
         [SerializeField] private TMP_InputField _portInput;
         [SerializeField] private TMP_InputField _nameInput;
-        
+
         [SerializeField] private TMP_InputField _messageInput;
 
         private void OnEnable()
@@ -24,21 +24,21 @@ namespace BagelChat.UI
             {
                 _onConnectedToServer.OnInvoked += controller.SwitchScreen;
             }
-            
+
             _hostInput.onEndEdit.AddListener(_client.SetHost);
             _portInput.onEndEdit.AddListener(_client.SetPort);
-            _nameInput.onEndEdit.AddListener(_client.SetName);            
-            
+            _nameInput.onEndEdit.AddListener(_client.SetName);
+
             _messageInput.onEndEdit.AddListener(_client.SendData);
         }
-        
+
         private void OnDisable()
         {
             foreach (var controller in _controllers)
             {
                 _onConnectedToServer.OnInvoked -= controller.SwitchScreen;
             }
-            
+
             _hostInput.onEndEdit.RemoveListener(_client.SetHost);
             _portInput.onEndEdit.RemoveListener(_client.SetPort);
             _nameInput.onEndEdit.RemoveListener(_client.SetName);

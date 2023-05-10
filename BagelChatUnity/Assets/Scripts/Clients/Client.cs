@@ -13,7 +13,7 @@ namespace BagelChat.Clients
         [SerializeField] private EventSO _onConnectedToServer;
 
         private string _clientName;
-        
+
         private bool _isConnected = false;
 
         private TcpClient _socket;
@@ -24,9 +24,9 @@ namespace BagelChat.Clients
 
         private string _host = "127.0.0.1";
         private int _port = 6321;
-        
+
         private string _data;
-        
+
         private void Update()
         {
             if (!_isConnected)
@@ -34,7 +34,7 @@ namespace BagelChat.Clients
 
             if (_stream.DataAvailable)
             {
-                _data =_reader.ReadLine();
+                _data = _reader.ReadLine();
 
                 if (_data != null)
                     OnIncomingData(_data);
@@ -55,18 +55,18 @@ namespace BagelChat.Clients
         {
             ConnectToServer();
         }
-        
+
         public void SetHost(string host) => _host = host;
 
         public void SetPort(string port) => int.TryParse(port, out _port);
 
         public void SetName(string clientName) => _clientName = clientName;
-        
+
         public void SendData(string data)
         {
-            if(!_isConnected)
+            if (!_isConnected)
                 return;
-            
+
             _writer.WriteLine(data);
             _writer.Flush();
         }
@@ -93,7 +93,7 @@ namespace BagelChat.Clients
                 Debug.Log("Socket error " + e.Message);
             }
         }
-        
+
         private void OnIncomingData(string data)
         {
             if (data == "&NAME")
@@ -101,7 +101,7 @@ namespace BagelChat.Clients
                 SendData($"{SpecialCommands.NameResponse}{_clientName}");
                 return;
             }
-            
+
             _onMessageReceived.ChangeValue(data);
         }
 
@@ -109,7 +109,7 @@ namespace BagelChat.Clients
         {
             if (!_isConnected)
                 return;
-            
+
             _writer.Close();
             _reader.Close();
             _socket.Close();

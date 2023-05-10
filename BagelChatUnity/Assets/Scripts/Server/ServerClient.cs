@@ -6,7 +6,7 @@ namespace BagelChat.Server
     {
         public TcpClient Client { get; }
         public string Name { get; set; }
-        
+
         public ServerClient(TcpClient client)
         {
             Client = client;
