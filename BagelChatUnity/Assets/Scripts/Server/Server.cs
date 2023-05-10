@@ -88,33 +88,39 @@ namespace BagelChat.Server
             if (data.Contains(SpecialCommands.NameResponse))
             {
                 client.Name = data.Split(':')[1];
-                SendData($"{client.Name} has connected", _clients);
+                SendData($"{SpecialCommands.GlobalTag}{client.Name} has connected", _clients);
                 return;
             }
             
             if (data.Contains(SpecialCommands.PrivateTag))
             {
-                // extract private user and find him in users dictionary
+                string privateUserName = data.Split('|')[1];
+                string message = data.Split('|')[2];
+                
+                foreach (ServerClient serverClient in _clients)
+                {
+                    if (serverClient.Name == privateUserName)
+                    {
+                        SendData($"{SpecialCommands.PrivateTag}{client.Name}: {message}", new List<ServerClient>{client, serverClient});
+                        break;
+                    }
+                }
             }
             else
             {
-                SendData($"{client.Name}: {data}", _clients);
+                SendData($"{SpecialCommands.GlobalTag}{client.Name}: {data}", _clients);
             }
         }
 
         private void SendData(string data, List<ServerClient> clients)
         {
-            bool isGlobal = clients.Count == _clients.Count;
-
             foreach (ServerClient client in clients)
             {
                 try
                 {
                     StreamWriter writer = new StreamWriter(client.Client.GetStream());
-                    if (isGlobal)
-                    {
-                        writer.WriteLine(SpecialCommands.GlobalTag + data);
-                    }
+
+                    writer.WriteLine(data);
                     writer.Flush();
                 }
                 catch (Exception e)
