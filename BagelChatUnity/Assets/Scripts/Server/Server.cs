@@ -37,6 +37,8 @@ namespace BagelChat.Server
                 StartListening();
 
                 _isStarted = true;
+                
+                Debug.Log("server started");
                 _onServerStarted.Invoke();
             }
             catch (Exception e)
@@ -83,6 +85,13 @@ namespace BagelChat.Server
             _disconnectClients.Clear();
         }
 
+        private void OnDisable()
+        {
+            _isStarted = false;
+            SendData($"{SpecialCommands.GlobalTag} server off", _clients);
+            Debug.Log("server stop");
+        }
+
         private void OnIncomingData(ServerClient client, string data)
         {
             if (data.Contains(SpecialCommands.NameResponse))
@@ -101,10 +110,11 @@ namespace BagelChat.Server
                 {
                     if (serverClient.Name == privateUserName)
                     {
-                        SendData($"{SpecialCommands.PrivateTag}{client.Name}: {message}", new List<ServerClient>{client, serverClient});
-                        break;
+                        SendData($"{SpecialCommands.PrivateTag}[private]{client.Name}: {message}", new List<ServerClient>{client, serverClient});
+                        return;
                     }
                 }
+                SendData($"{SpecialCommands.GlobalTag}\"{privateUserName}\" is unknown user", new List<ServerClient>{client});
             }
             else
             {
