@@ -37,6 +37,8 @@ namespace BagelChat.Server
                 StartListening();
 
                 _isStarted = true;
+                
+                Debug.Log("server started");
                 _onServerStarted.Invoke();
             }
             catch (Exception e)
@@ -83,25 +85,51 @@ namespace BagelChat.Server
             _disconnectClients.Clear();
         }
 
+        private void OnDisable()
+        {
+            _isStarted = false;
+            SendData($"{SpecialCommands.GlobalTag} server off", _clients);
+            Debug.Log("server stop");
+        }
+
         private void OnIncomingData(ServerClient client, string data)
         {
             if (data.Contains(SpecialCommands.NameResponse))
             {
                 client.Name = data.Split(':')[1];
-                BroadCast($"{client.Name} has connected", _clients);
+                SendData($"{SpecialCommands.GlobalTag}{client.Name} has connected", _clients);
                 return;
             }
-
-            BroadCast($"{client.Name}: {data}", _clients);
+            
+            if (data.Contains(SpecialCommands.PrivateTag))
+            {
+                string privateUserName = data.Split('|')[1];
+                string message = data.Split('|')[2];
+                
+                foreach (ServerClient serverClient in _clients)
+                {
+                    if (serverClient.Name == privateUserName)
+                    {
+                        SendData($"{SpecialCommands.PrivateTag}[private]{client.Name}: {message}", new List<ServerClient>{client, serverClient});
+                        return;
+                    }
+                }
+                SendData($"{SpecialCommands.GlobalTag}\"{privateUserName}\" is unknown user", new List<ServerClient>{client});
+            }
+            else
+            {
+                SendData($"{SpecialCommands.GlobalTag}{client.Name}: {data}", _clients);
+            }
         }
 
-        private void BroadCast(string data, List<ServerClient> clients)
+        private void SendData(string data, List<ServerClient> clients)
         {
             foreach (ServerClient client in clients)
             {
                 try
                 {
                     StreamWriter writer = new StreamWriter(client.Client.GetStream());
+
                     writer.WriteLine(data);
                     writer.Flush();
                 }
@@ -123,7 +151,7 @@ namespace BagelChat.Server
 
             _clients.Add(new ServerClient(listener.EndAcceptTcpClient(ar)));
 
-            BroadCast(SpecialCommands.NameRequest, new List<ServerClient> {_clients[^1]});
+            SendData(SpecialCommands.NameRequest, new List<ServerClient> {_clients[^1]});
 
             StartListening();
         }
