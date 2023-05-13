@@ -96,13 +96,21 @@ namespace BagelChat.Clients
 
         private void OnIncomingData(string data)
         {
-            if (data == "&NAME")
+            if (data.Contains(SpecialCommands.NameRequest))
             {
                 SendData($"{SpecialCommands.NameResponse}{_clientName}");
                 return;
             }
 
-            _onMessageReceived.ChangeValue(data);
+            try
+            {
+                _data = data.Split('|')[1];
+            }
+            catch (Exception e)
+            {
+                Debug.Log($"Read error: {e.Message}");
+            }
+            _onMessageReceived.ChangeValue(_data);
         }
 
         private void CloseSocket()
