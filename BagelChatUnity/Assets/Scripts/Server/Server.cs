@@ -97,7 +97,7 @@ namespace BagelChat.Server
             if (data.Contains(SpecialCommands.NameResponse))
             {
                 client.Name = data.Split(':')[1];
-                SendData($"{SpecialCommands.GlobalTag}{client.Name} has connected", _clients);
+                SendData($"{SpecialCommands.GlobalTag}<color=#8BEA00>{client.Name} has connected</color>", _clients);
                 return;
             }
             
@@ -110,15 +110,15 @@ namespace BagelChat.Server
                 {
                     if (serverClient.Name == privateUserName)
                     {
-                        SendData($"{SpecialCommands.PrivateTag}[private]{client.Name}: {message}", new List<ServerClient>{client, serverClient});
+                        SendData($"{SpecialCommands.PrivateTag}<color=#1240AB>[private]</color>{client.Name}: {message}", new List<ServerClient>{client, serverClient});
                         return;
                     }
                 }
-                SendData($"{SpecialCommands.GlobalTag}\"{privateUserName}\" is unknown user", new List<ServerClient>{client});
+                SendData($"{SpecialCommands.GlobalTag}<color=#FF0000>\"{privateUserName}\" is unknown user</color>", new List<ServerClient>{client});
             }
             else
             {
-                SendData($"{SpecialCommands.GlobalTag}{client.Name}: {data}", _clients);
+                SendData($"{SpecialCommands.GlobalTag}<color=#000000>{client.Name}:</color> {data}", _clients);
             }
         }
 
