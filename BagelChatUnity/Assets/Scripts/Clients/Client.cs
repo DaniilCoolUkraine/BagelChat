@@ -10,6 +10,8 @@ namespace BagelChat.Clients
     public class Client : Controllable
     {
         [SerializeField] private StringEventSO _onMessageReceived;
+        [SerializeField] private StringEventSO _onClientsListReceived;
+        
         [SerializeField] private EventSO _onConnectedToServer;
 
         private string _clientName;
@@ -99,6 +101,14 @@ namespace BagelChat.Clients
             if (data.Contains(SpecialCommands.NameRequest))
             {
                 SendData($"{SpecialCommands.NameResponse}{_clientName}");
+                return;
+            }
+            
+            if (data.Contains(SpecialCommands.ConnectedClientsResponse))
+            {
+                _data = data.Split(':')[1];
+                _onClientsListReceived.ChangeValue(_data);
+                
                 return;
             }
 

@@ -98,6 +98,18 @@ namespace BagelChat.Server
             {
                 client.Name = data.Split(':')[1];
                 SendData($"{SpecialCommands.GlobalTag}<color=#8BEA00>{client.Name} has connected</color>", _clients);
+                
+                string connectedClientsNickNames = "";
+                string temporary;
+                    
+                foreach (ServerClient serverClient in _clients)
+                {
+                    temporary = connectedClientsNickNames;
+                    connectedClientsNickNames = $"{temporary} {serverClient.Name}";
+                }
+
+                SendData($"{SpecialCommands.ConnectedClientsResponse}{connectedClientsNickNames}", new List<ServerClient>{client});
+                
                 return;
             }
             

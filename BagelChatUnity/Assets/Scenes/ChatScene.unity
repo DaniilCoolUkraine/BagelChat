@@ -410,6 +410,7 @@ GameObject:
   - component: {fileID: 133603222}
   - component: {fileID: 133603223}
   - component: {fileID: 133603224}
+  - component: {fileID: 133603225}
   m_Layer: 0
   m_Name: Client
   m_TagString: Untagged
@@ -445,6 +446,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _onMessageReceived: {fileID: 11400000, guid: 7723a8660effefe4bbdbdbe8fb05ae0b, type: 2}
+  _onClientsListReceived: {fileID: 11400000, guid: feca299a0dd94a044bd97422d6093647, type: 2}
   _onConnectedToServer: {fileID: 11400000, guid: f98d837f7c340284dacd9eaa28443c0a, type: 2}
 --- !u!114 &133603224
 MonoBehaviour:
@@ -461,6 +463,22 @@ MonoBehaviour:
   _onMessageReceived: {fileID: 11400000, guid: 7723a8660effefe4bbdbdbe8fb05ae0b, type: 2}
   _chatWindow: {fileID: 1190905046}
   _messagePrefab: {fileID: 1778999341491635486, guid: bbc69ece28da7d7419c282a4fc2b4013, type: 3}
+--- !u!114 &133603225
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 133603221}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f7335290355d440d8153ef558175cbac, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _onClientsListReceived: {fileID: 11400000, guid: feca299a0dd94a044bd97422d6093647, type: 2}
+  _clientsWindow: {fileID: 2052033675}
+  _clientPrefab: {fileID: 932827080218815612, guid: 19abc971802ef2543be58769a40afdb1, type: 3}
+  _messageInput: {fileID: 1225526535}
 --- !u!1 &256864982
 GameObject:
   m_ObjectHideFlags: 0
@@ -1536,8 +1554,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 1094.2798, y: -540.2702}
-  m_SizeDelta: {x: 1649.5199, y: 1080.5404}
+  m_AnchoredPosition: {x: 1094.885, y: -540.04315}
+  m_SizeDelta: {x: 1649.9233, y: 1080.0863}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &960616932
 MonoBehaviour:
@@ -2767,8 +2785,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 774.81244, y: -50}
-  m_SizeDelta: {x: 1549.6249, y: 100}
+  m_AnchoredPosition: {x: 774.97003, y: -50}
+  m_SizeDelta: {x: 1549.9401, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1225526534
 MonoBehaviour:
@@ -3414,8 +3432,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 1599.5724, y: -50}
-  m_SizeDelta: {x: 99.89498, y: 100}
+  m_AnchoredPosition: {x: 1599.9316, y: -50}
+  m_SizeDelta: {x: 99.98323, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1572871677
 MonoBehaviour:
@@ -3952,7 +3970,7 @@ GameObject:
   - component: {fileID: 1679829491}
   - component: {fileID: 1679829490}
   m_Layer: 5
-  m_Name: ChatsList
+  m_Name: ClientsList
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3977,8 +3995,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 134.75995, y: -540.2702}
-  m_SizeDelta: {x: 269.5199, y: 1080.5404}
+  m_AnchoredPosition: {x: 134.96164, y: -540.04315}
+  m_SizeDelta: {x: 269.92328, y: 1080.0863}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1679829490
 MonoBehaviour:
